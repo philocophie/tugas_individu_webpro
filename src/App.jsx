@@ -1,121 +1,102 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import Header from './components/Header'
+import HalamanHome from './pages/HalamanHome'
+import HalamanProfil from './pages/HalamanProfil'
+
+const profil = {
+  nama: 'Sofia Mehira Simanihuruk',
+  jurusan: 'S1 Rekayasa Perangkat Lunak',
+  bio: 'Ingin jadi programmer handal, tapi enggan ngoding',
+  foto: '/foto-profil.jpeg',
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [halaman, setHalaman] = useState('home')
+  const [postingan, setPostingan] = useState([
+    {
+      id: 1,
+      judul: 'Rangkuman Normalisasi Basis Data',
+      isi: 'Catatan singkat materi normalisasi lengkap dengan contoh',
+      penulis: 'Dimas',
+      kategori: 'Basis Data',
+      waktu: '2 jam lalu',
+      direpost: true,
+    },
+    {
+      id: 2,
+      judul: 'Tips Lulus Praktikum KPL',
+      isi: 'Pelajari dulu konsep sebelum praktikum',
+      penulis: 'Dio',
+      kategori: 'SE',
+      waktu: '5 jam lalu',
+      direpost: false,
+    },
+    {
+      id: 3,
+      judul: 'Catatan Dasar HTML, CSS, dan JavaScript',
+      isi: 'Ringkasan tag HTML yang sering dipakai, selector CSS, dll untuk pemula.',
+      penulis: 'Dea',
+      kategori: 'Pemrograman Web',
+      waktu: 'Kemarin',
+      direpost: true,
+    },
+    {
+      id: 4,
+      judul: 'Panduan Menyusun Laporan Tugas Akhir',
+      isi: 'Struktur bab 1 sampai 5, contoh penulisan latar belakang, dan daftar pustaka yang rapi.',
+      penulis: 'Dobby',
+      kategori: 'Skripsi',
+      waktu: '2 hari lalu',
+      direpost: false,
+    },
+    {
+      id: 5,
+      judul: 'Cara Cepat Memahami Algoritma Sorting',
+      isi: 'Perbandingan bubble sort, selection sort, dan merge sort',
+      penulis: 'Dora',
+      kategori: 'Algoritma',
+      waktu: '3 hari lalu',
+      direpost: false,
+    },
+  ])
+
+  function tambahPostingan(postinganBaru) {
+    setPostingan([postinganBaru, ...postingan])
+  }
+
+  function toggleRepost(id) {
+    setPostingan(
+      postingan.map((item) =>
+        item.id === id ? { ...item, direpost: !item.direpost } : item
+      )
+    )
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <div>
+      <Header
+        halaman={halaman}
+        onGanti={setHalaman}
+        nama={profil.nama}
+        foto={profil.foto}
+      />
+      <main className="container">
+        {halaman === 'home' ? (
+          <HalamanHome
+            postingan={postingan}
+            profil={profil}
+            onTambah={tambahPostingan}
+            onRepost={toggleRepost}
+          />
+        ) : (
+          <HalamanProfil
+            postingan={postingan}
+            profil={profil}
+            onRepost={toggleRepost}
+          />
+        )}
+      </main>
+    </div>
   )
 }
 
